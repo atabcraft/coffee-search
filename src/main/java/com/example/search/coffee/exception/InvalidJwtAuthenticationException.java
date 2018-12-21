@@ -1,0 +1,9 @@
+package com.example.search.coffee.exception;
+
+public class InvalidJwtAuthenticationException extends RuntimeException {
+
+    public InvalidJwtAuthenticationException(String message) {
+        super(message);
+    }
+     
+}
