@@ -12,7 +12,7 @@
 	<artifactId>coffee</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>coffee</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project for showing my understanding of few key aspects reagarding Spring and Elasticsearch frameworks </description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -51,15 +51,20 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+                <dependency>
+                    <groupId>io.jsonwebtoken</groupId>
+                    <artifactId>jjwt</artifactId>
+                    <version>0.9.0</version>
+                </dependency>
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+            <plugins>
+                <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
 	</build>
 
 </project>

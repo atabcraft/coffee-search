@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
- * Entity that models Coffee.
+ * Entity that models coffee.
  * @author Armin
  */
 @Entity
