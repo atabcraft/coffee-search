@@ -8,6 +8,11 @@ import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './auth/interceptor/auth.interceptor';
+import { LocalStorageService, SessionStorageService, NgxWebstorageModule } from 'ngx-webstorage';
+import { BsDropdownModule } from 'ngx-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -19,11 +24,22 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxWebstorageModule.forRoot(),
+    BsDropdownModule.forRoot()
+
   ],
-  providers: [],
+  providers: [
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true,
+        deps: [LocalStorageService, SessionStorageService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

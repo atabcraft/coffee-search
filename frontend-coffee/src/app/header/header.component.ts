@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+//import { BsDropdownModule, BsDropdownToggleDirective, BsDropdownMenuDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'app-header',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class HeaderComponent implements OnInit {
+
+    isCollapsed: Boolean = false;
     constructor() { }
 
     ngOnInit() { }

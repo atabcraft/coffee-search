@@ -3,20 +3,16 @@
         <div class="navbar-header">
             <a href="" class="navbar-brand">Coffee Search</a>
         </div>
-        <div class="collapse navbar-collapse">  
-                <ul class="nav navbar-nav">
-                    <li>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                  <li class="dropdown">
-                    <a class="dropdown-toggle" role="button"> User management <span class="caret"></span> </a>
-                    <ul class="dropdown-menu">
-                      <li>Sign in</li>
-                      <li>Sign up</li>
-                    </ul>
-                  </li>
-                </ul>
+        <div class="navbar-nav navbar-right uk-navbar-center" dropdown>
+            <button id="button-menu-dividers" dropdownToggle type="button" class="btn navbar-btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-menu-dividers">
+                User management <span class="caret"></span>
+            </button>
+            <ul id="dropdown-menu-dividers" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-menu-dividers">
+                <li role="menuitem"><a class="dropdown-item" routerLink="/signin" routerLinkActive="active">Sign in</a></li>
+                <li role="menuitem"><a class="dropdown-item" routerLink="/signup" routerLinkActive="active">Sign up</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
