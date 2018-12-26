@@ -33,7 +33,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         //please note here because token can be null when requesting 
         // over HTTP on endpoints /api/users/sign-in or /api/users/sign-up
         //first token != null is necessery
-        //TODO check this
         log.info("resolved token as: {}", token);
         if ( token != null && jwtTokenProvider.validateToken(token)) {
             Authentication auth = token != null ? jwtTokenProvider.getAuthentication(token) : null;

@@ -2,6 +2,7 @@ import { Injector } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 
 export class AuthExpiredInterceptor implements HttpInterceptor {
@@ -13,11 +14,9 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
                 (event: HttpEvent<any>) => {},
                 (err: any) => {
                     if (err instanceof HttpErrorResponse) {
-                        if (err.status === 401) {
-                            /* const Aut: LoginService = this.injector.get(LoginService);
-                            loginService.logout();
-                            TODO really add logout logic
-                            */
+                        if ( err.status === 401 || err.status === 403) {
+                            const authService: AuthService = this.injector.get(AuthService);
+                            authService.signOut();
                         }
                     }
                 }

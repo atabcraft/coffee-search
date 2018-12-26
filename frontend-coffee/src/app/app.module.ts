@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { SignupComponent } from './auth/signup/signup.component';
@@ -12,6 +12,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/interceptor/auth.interceptor';
 import { LocalStorageService, SessionStorageService, NgxWebstorageModule } from 'ngx-webstorage';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { AuthExpiredInterceptor } from './auth/interceptor/auth-expired.interceptor';
+import { AuthService } from './auth/auth.service';
 
 
 @NgModule({
@@ -38,6 +40,12 @@ import { BsDropdownModule } from 'ngx-bootstrap';
         useClass: AuthInterceptor,
         multi: true,
         deps: [LocalStorageService, SessionStorageService]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthExpiredInterceptor,
+      multi: true,
+      deps: [Injector]
     }
   ],
   bootstrap: [AppComponent]
