@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,12 +11,12 @@ export class DashboardComponent implements OnInit {
 
   title = 'frontend-coffee';
 
-  userDetails = null;
+  userDetails: Observable<any>| null = null;
 
   constructor( private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.userDetails = this.localStorageService.retrieve('userdetails');
+    this.userDetails = this.localStorageService.observe('userdetails');
     console.log(this.userDetails);
   }
 

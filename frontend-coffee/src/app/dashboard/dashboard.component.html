@@ -3,4 +3,4 @@
 </h1>
 
 
-<span *ngIf="userDetails != null">Your username is {{userDetails.username}}</span>
+<span *ngIf="(userDetails| async)?.username">Your username is {{(userDetails| async).username }}</span>

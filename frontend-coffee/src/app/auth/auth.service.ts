@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { createRequestOption } from '../util/request.util';
-import { tap, flatMap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Router } from '@angular/router';
 
@@ -11,13 +11,15 @@ import { Router } from '@angular/router';
 export class AuthService {
 
     apiUri = environment.APP_SERVER;
-
     principal = null;
 
-    constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService, private router: Router) { }
+    isAuthenticatedSubject = new Subject();
+
+    constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService, private router: Router) {
+    }
 
     signIn(bodyParms, urlParams): Observable<HttpResponse<any>> {
-        const params: HttpParams = createRequestOption( urlParams );
+        const params: HttpParams = createRequestOption(urlParams);
         return this.httpClient.post(
             this.apiUri + '/api/users/sign-in',
             bodyParms,
@@ -25,16 +27,36 @@ export class AuthService {
                 observe: 'response',
                 'params': params
             }).pipe(
-                tap( resp => {
+                tap(resp => {
                     this.localStorageService.store('authenticationToken', resp.body.token);
-                    this.httpClient.get( this.apiUri + '/api/users/current').subscribe(
-                        (userResp: any) =>  {
-                            this.localStorageService.store('userDetails', userResp);
-                            this.principal = userResp;
-                        }
-                    );
+                    this.getPrincipal(true);
+                    this.isAuthenticatedSubject.next({
+                        isAuthenticated: true
+                    });
                 })
-            )
+            );
+    }
+
+    getPrincipal(forceReload: boolean) {
+        console.log("calling getPrincipal with flag to forceReload:" + forceReload);
+        if (forceReload) {
+            console.log(this.refreshCurrentPrincipal());
+            return this.refreshCurrentPrincipal();
+        }
+        return this.principal;
+    }
+
+    refreshCurrentPrincipal() {
+        return this.httpClient.get(this.apiUri + '/api/users/current').toPromise().then(
+            (userResp: any) => {
+                this.localStorageService.store('userDetails', userResp);
+                this.principal = userResp;
+                this.isAuthenticatedSubject.next({
+                    isAuthenticated: true
+                })
+                return userResp;
+            }
+        );
     }
 
     signOut() {
@@ -43,10 +65,13 @@ export class AuthService {
         this.localStorageService.clear('authenticationtoken');
         this.principal = null;
         this.router.navigate(['/dashboard']);
+        this.isAuthenticatedSubject.next({
+            isAuthenticated: false
+        })
     }
 
-    isAuthenticated() {
-        return this.principal != null
-            && this.localStorageService.retrieve('authenticationtoken') != null;
+    isAuthenticated(): Observable<any> {
+        console.log("calling isAuthenticated");
+        return this.isAuthenticatedSubject.asObservable();
     }
 }
