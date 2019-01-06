@@ -1,6 +1,5 @@
 package com.example.search.coffee.security;
 
-import com.example.search.coffee.rest.UserResource;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

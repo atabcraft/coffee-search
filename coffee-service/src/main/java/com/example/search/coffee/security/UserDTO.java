@@ -1,5 +1,6 @@
 package com.example.search.coffee.security;
 
+import com.example.search.coffee.domain.Authority;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
@@ -14,7 +15,7 @@ public class UserDTO {
 
     public UserDTO(){}
     
-    public UserDTO(String username, String password, String firstName, String lastName, String email, List<String> roles, List<GrantedAuthority> authorities) {
+    public UserDTO(String username, String password, String firstName, String lastName, String email, List<String> roles, List<Authority> authorities) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -33,7 +34,7 @@ public class UserDTO {
 
     private String email;
     
-    private List<GrantedAuthority> authorities;
+    private List<Authority> authorities;
 
     public String getUsername() {
         return username;
@@ -75,11 +76,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public List<GrantedAuthority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(List<GrantedAuthority> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
     

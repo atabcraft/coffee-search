@@ -12,7 +12,9 @@ import com.example.search.coffee.security.JwtDTO;
 import com.example.search.coffee.security.JwtTokenProvider;
 import com.example.search.coffee.security.UserDTO;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import org.elasticsearch.common.util.set.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -61,29 +63,38 @@ public class UserResource {
     @PostMapping("/users/sign-up")
     public ResponseEntity<User> signUpUser(@RequestBody UserDTO userDTO) {
 
-        log.info("Signing up user with login {}", userDTO.getUsername());
-
+        log.info("Signing up user {}", userDTO );
+        
         if (userDTO.getEmail() == null
                 || userDTO.getPassword() == null || userDTO.getUsername() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        Optional<User> optionalUser = userRepository.findByUsername(userDTO.getUsername());
+        if( optionalUser.isPresent() ) {
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         User user = new User();
+        
+        String createdBy = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+          createdBy = ((UserDetails)principal).getUsername();
+        } else {
+          createdBy = principal.toString();
+        }
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setUsername(userDTO.getUsername());
         user.setPasswordHash(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+        user.setCreatedBy(createdBy);
         //this is why I used DTO because of security reasons, someone could easily put ROLE_ADMIN try to guess admin role
         // Spring Security 4 by default uses "ROLE_" prefix and I'm fully aware of that
-        if (userDTO.getAuthorities().stream().anyMatch(ga -> ga.getAuthority().equals("ROLE_ADMIN"))) {
+        if (userDTO.getAuthorities().stream().anyMatch(authority -> authority.getName().equals("ROLE_ADMIN"))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        user.setRoles(
-                userDTO.getAuthorities()
-                        .stream().map(ga -> new Authority(ga.getAuthority()))
-                        .collect(Collectors.toSet()));
+        user.setRoles(Sets.newHashSet( userDTO.getAuthorities()));       
         User result = userRepository.save(user);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -119,7 +130,10 @@ public class UserResource {
         Collection<? extends GrantedAuthority> grantedAuthority = userDetails.getAuthorities();
         UserDTO userDto = new UserDTO();
         userDto.setUsername(userDetails.getUsername());
-        userDto.setAuthorities(userDetails.getAuthorities().stream().collect(Collectors.toList()));
+        userDto.setAuthorities(userDetails.getAuthorities().stream()
+                // implementation of GrantedAuthority has no constructor
+                .map( grantedAuthory -> new Authority(grantedAuthory.getAuthority()))
+                .collect(Collectors.toList()));
         log.info("request to get user details: {}", userDto);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }

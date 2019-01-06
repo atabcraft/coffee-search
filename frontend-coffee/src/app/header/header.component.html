@@ -5,8 +5,8 @@
         </div>
         <div class="navbar-nav navbar-right uk-navbar-center" dropdown>
 
-            <button *ngIf="isAuthenticated" (click)="doSignOut()" class="btn navbar-btn btn-primary">
-                Sign out 
+            <button *ngIf="isAuthenticated" (click)="doSignOut()" class="padded-nav-button btn navbar-btn btn-warning">
+                <span class="glyphicon glyphicon-log-out"></span> Sign out 
             </button>
             <button id="button-menu-dividers" dropdownToggle type="button" class="btn navbar-btn btn-primary dropdown-toggle"
                 aria-controls="dropdown-menu-dividers">

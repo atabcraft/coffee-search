@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { createRequestOption } from '../util/request.util';
-import { tap } from 'rxjs/operators';
+import { tap, flatMap, map } from 'rxjs/operators';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Router } from '@angular/router';
 
@@ -35,6 +35,19 @@ export class AuthService {
                     });
                 })
             );
+    }
+
+    signUp( bodyParams ) {
+        return this.httpClient.post(
+            this.apiUri + '/api/users/sign-up',
+            bodyParams
+        ).pipe(
+            map( resp => {
+                console.log( resp );
+                this.router.navigate(['/signin']);
+                return resp;
+            })
+        );
     }
 
     getPrincipal(forceReload: boolean) {

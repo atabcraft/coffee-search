@@ -36,7 +36,7 @@ public class User extends AuditEntity implements UserDetails {
     private long id;
 
     @NotNull
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @NotNull
