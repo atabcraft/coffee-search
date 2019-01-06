@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/interceptor/auth.interceptor';
 import { LocalStorageService, SessionStorageService, NgxWebstorageModule } from 'ngx-webstorage';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { AuthExpiredInterceptor } from './auth/interceptor/auth-expired.interceptor';
 import { AuthService } from './auth/auth.service';
 
@@ -31,8 +32,8 @@ import { AuthService } from './auth/auth.service';
     ReactiveFormsModule,
     AppRoutingModule,
     NgxWebstorageModule.forRoot(),
-    BsDropdownModule.forRoot()
-
+    BsDropdownModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
     {
