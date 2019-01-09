@@ -2,3 +2,31 @@
 input.ng-invalid.ng-touched{
     border: 1px solid red
 }
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #663399;
+}
+a:hover, a:focus {
+    color: #af0000;
+}
+a:hover {
+    cursor: pointer;
+}
+a {
+    color: #0080a5;
+}
+a {
+    color: #c00;
+    line-height: inherit;
+    text-decoration: none;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}

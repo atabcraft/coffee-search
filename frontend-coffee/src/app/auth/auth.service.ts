@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { createRequestOption } from '../util/request.util';
-import { tap, flatMap, map } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Router } from '@angular/router';
 
@@ -66,7 +66,7 @@ export class AuthService {
                 this.principal = userResp;
                 this.isAuthenticatedSubject.next({
                     isAuthenticated: true
-                })
+                });
                 return userResp;
             }
         );
@@ -80,11 +80,10 @@ export class AuthService {
         this.router.navigate(['/dashboard']);
         this.isAuthenticatedSubject.next({
             isAuthenticated: false
-        })
+        });
     }
 
     isAuthenticated(): Observable<any> {
-        console.log("calling isAuthenticated");
         return this.isAuthenticatedSubject.asObservable();
     }
 }

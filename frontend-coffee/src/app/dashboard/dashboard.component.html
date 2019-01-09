@@ -2,5 +2,42 @@
     Welcome to {{ title }}!
 </h1>
 
+<div>
+    This application is a demo for my full-stack expertise, please note that this is just a reduced set of my knowlage.
+    In this application im going to show you a few keypoints that I think you will be interested in.
+</div>
 
+
+<div>
+<strong>Front-end</strong>
+  <ul>
+    <li>Using state of the art frontend technology, Angular, TypeScript</li>
+    <li>Defining interceptors and mechanisms on frontend for handling authentification and authorization</li>
+    <li>Using component based approach on fronted for maintainability</li>
+    <li>Using advanced concepts such as Lazy Loading and authorization using Guards</li>
+    <li>Using Observables and Promises the right way, understanding the concept of consuming REST-full API</li>
+    <li>Willingness to learn new technologies, Angular framework was not learned during my working hours, small part was but most of the stuff demonstrated on frontend wasn't</li>
+  </ul>
+</div>
+
+<div>
+  <strong>Back-end</strong>
+  <ul>
+    <li>Bootstraping whole Spring based application with Spring Initializr and Spring Boot</li>
+    <li>Configuring application(PostgreSQL, Elasticsearch, models for ORM) and initializing data</li>
+    <li>Implementing JWT token authentification with Remember Me functionality</li>
+    <li>Securing application with Spring Security, defining roles in application</li>
+    <li>Creation of new user with specified role</li>
+    <li>Auditing an entity</li>
+    <li>Defining REST-full API</li>
+    <li>TODO Demonstrate Searching an document using Elasticsearch for searching capabilites, defining indexes and accesing them</li>
+    <li>TODO Demonstrate Using full-text search with PostgreSQL on set of attributes </li>
+  </ul>
+</div>
 <span *ngIf="(userDetails| async)?.username">Your username is {{(userDetails| async).username }}</span>
+
+<h2> Would you like some coffee?</h2>
+
+<a [routerLink]="['/coffee']" routerLinkActive="router-link-active" >Choose from our wide selection</a>
+
+<div> <small> NB: You must be signed-in to choose from our selection </small></div>

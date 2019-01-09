@@ -10,6 +10,8 @@ const appRoutes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'coffee', loadChildren: './coffee/coffee.module#CoffeeModule'}
+
 ];
 
 @NgModule({
