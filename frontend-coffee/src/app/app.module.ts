@@ -15,6 +15,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { AuthExpiredInterceptor } from './auth/interceptor/auth-expired.interceptor';
 import { AuthService } from './auth/auth.service';
+import { SharedModule } from './shared/shared/shared.module';
 
 
 @NgModule({
@@ -28,12 +29,8 @@ import { AuthService } from './auth/auth.service';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
     AppRoutingModule,
-    NgxWebstorageModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    AlertModule.forRoot()
+    SharedModule
   ],
   providers: [
     {

@@ -53,7 +53,6 @@ export class AuthService {
     getPrincipal(forceReload: boolean) {
         console.log("calling getPrincipal with flag to forceReload:" + forceReload);
         if (forceReload) {
-            console.log(this.refreshCurrentPrincipal());
             return this.refreshCurrentPrincipal();
         }
         return this.principal;
@@ -68,7 +67,11 @@ export class AuthService {
                     isAuthenticated: true
                 });
                 return userResp;
-            }
+            },
+            (error => {
+                console.log('Error happened while catching current principal, possibly because of 403');
+                console.log(error);
+            })
         );
     }
 
