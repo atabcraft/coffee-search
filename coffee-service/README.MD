@@ -1,55 +1,70 @@
-# Setup projekta
+# Setup of project
 
-## Postavljanje i pokretanje PostgeSQL s Dockerom
-Više o tome ovdje
+## Setup and running PostgeSQL with Docker
+More about it here
 https://docs.docker.com/samples/library/postgres/
+
+command to run:
 
 `docker run --name coffee-postgres -p 5432:5432 -e POSTGRES_PASSWORD=secr3t -e POSTGRES_USER=armin -e POSTGRES_DB=coffeuniverse -d postgres`
 
-## Postavljanje i pokretanje Elasticsearch za development
+## Setup and running Elasticsearch for development
 
-Trenutno se koristi ES kao servis unutar Springa
-U slučaju da se pokaže potreba moguće stvoriti docker container s naredbom sljedećeg oblika:
+Elasticsearch Node
+An Elasticsearch Node is the smallest unit which you can interact with in Elasticsearch. 
+It is the gateway to the receiving, analyzing and storing of the data that is to be retrieved later via searching.
+When you have Elasticsearch running as a stand alone application, you have a node.
+The combination of one or more nodes, configured with the same cluster name, gives you a cluster.
+
+It is also possible to have this Elasticsearch node created and have it running in the computer’s memory, but within an application, without the need to kickstart it as a standalone process.
+
+Currently ES is being used as in-memory Spring bean inside Spring
+
+More about this method here https://www.elastic.co/guide/en/elasticsearch/reference/6.5/docker.html
+
+
+Alternatively docker instance can be created locally for local Elasticsearch instance with command like this:
 `docker run --name zato-es -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.10`
 
-# Generalne informacije
+# General information
 
-Ime baze: coffeuniverse
-korisnik/lozinka : armin/secr3t
+Database name: coffeuniverse
+Database scheme: public
+username/password : armin/secr3t
 
-## Pokretanje aplikacije:
+## Starting the application:
 
 ### Backend 
-- Source Packages -> com.example.search.coffee -> Desna tipka "Run file" ili 
-- U rootu projekta iz terminala pokrenuti naredbu: ./mvnw (Mac OS X/Linux) ili mvnw (Windows)
+- Source Packages -> com.example.search.coffee -> Right click "Run file" or 
+- Go to root of project and type in terminal: ./mvnw (Mac OS X/Linux) or mvnw (Windows)
 
-Aplikacija će biti dostupna na http://localhost:8080
+Application can be reached in browser on URL http://localhost:8080
 
 ### Frontend
-otići u root frontend projekta i pokrenuti iz terminala -> yarn start ( ili npm start )
+Go to root of project and type in terminal: -> yarn start ( or npm start )
 
-# Generalne preporuke
+# General recomendations
 
-	Frontend: Visual Studio Code - odlična potpora za angular 6 + TS
+	Frontend: Visual Studio Code - Great support for angular 6 + TS
 
-	Backend : Netbeans - Za Maven projekt, DBeaver
+	Backend : Netbeans - For Maven project, DBeaver for DB client
 
-# Prvi korisnik u sustavu administrator
+# First user in system: administrator
 
-Prvi korisnik je stvoren u data.sql i po defaultu je aplikacija konfigurirana tako da se stvore pri svakom pokretanju sve tablice koje nisu stvorene 
+First user is created in data.sql and by default application is configurated in such a way that all tables are created and default data is filled for demo purpose. 
 
-Sign-in prvog korisnika se može provjeriti sa naredbom
+Sign-in validity of first user can be checked with following command
 
 `curl -X POST http://localhost:8080/api/users/sign-in?rememberMe=true -H "Content-Type:application/json" -d "{\"username\":\"admin\", \"password\":\"admin\"}"`
  
-dobije se odgovor:
+Response:
 
 `{"username":"admin","token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNTQ1NDA1MzkzLCJleHAiOjE1NDYwMTAxOTN9.Xomvm6iP776gc3y7sF1RISRZLt7xNX4j-gTd4GR8UpE"}`
 
-Sada je moguće pitati zaštićeni url s tokenom iz odgovora sa curl na sljedeći način:
+Now its possible to access protected URL with token from response with CURL from terminal by running command:
 
 `curl -X GET http://localhost:8080/api/users/current -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNTQ1NDA1MzkzLCJleHAiOjE1NDYwMTAxOTN9.Xomvm6iP776gc3y7sF1RISRZLt7xNX4j-gTd4GR8UpE"`
 
-dobije se odgovor:
+Response:
 
 `{"username":"admin","authorities":[{"authority":"ROLE_ADMIN"}]}`
