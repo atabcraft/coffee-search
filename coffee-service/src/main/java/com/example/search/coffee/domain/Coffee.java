@@ -11,14 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
  * Entity that models coffee.
  * @author Armin
  */
 @Entity
-@Document(indexName = "coffee")
 public class Coffee extends AuditEntity implements Serializable {
 
     public Coffee() {

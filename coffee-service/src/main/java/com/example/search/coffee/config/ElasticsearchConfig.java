@@ -48,21 +48,22 @@ public class ElasticsearchConfig implements DisposableBean {
     public Settings elasticsearchSettings(){
         return Settings.builder()
                 .put("transport.type", "netty4")
-                .put("client.transport.sniff", true)
                 .put("http.type", "netty4")
                 .put("http.enabled", "true")
                 .put("path.home", "target/elasticsearch")
+                .put("path.logs", "target/elasticsearch/logs")
+                .put("path.data", "target/elasticsearch/data")
+                .put("cluster.name", "elastictest")
                 .build();
     }
  
     @Bean
     public Client client() {
-
         Settings settings = elasticsearchSettings();
         try {
             
             TransportClient client = new PreBuiltTransportClient(elasticsearchSettings());
-            client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
+            client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
             return client;
 
         } catch (UnknownHostException ex) {
