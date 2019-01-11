@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.search.coffee.rest;
 
 import com.example.search.coffee.domain.Authority;
@@ -12,9 +7,9 @@ import com.example.search.coffee.security.JwtDTO;
 import com.example.search.coffee.security.JwtTokenProvider;
 import com.example.search.coffee.security.UserDTO;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.elasticsearch.common.util.set.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -76,25 +71,19 @@ public class UserResource {
         }
         User user = new User();
         
-        String createdBy = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-          createdBy = ((UserDetails)principal).getUsername();
-        } else {
-          createdBy = principal.toString();
-        }
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setUsername(userDTO.getUsername());
         user.setPasswordHash(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        user.setCreatedBy(createdBy);
+
         //this is why I used DTO because of security reasons, someone could easily put ROLE_ADMIN try to guess admin role
         // Spring Security 4 by default uses "ROLE_" prefix and I'm fully aware of that
         if (userDTO.getAuthorities().stream().anyMatch(authority -> authority.getName().equals("ROLE_ADMIN"))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        user.setRoles(Sets.newHashSet( userDTO.getAuthorities()));       
+    
+        user.setRoles(new HashSet<>(userDTO.getAuthorities()));       
         User result = userRepository.save(user);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
