@@ -1,8 +1,9 @@
 package com.example.search.coffee.config;
 
 import com.example.search.coffee.domain.Coffee;
-import com.example.search.coffee.domain.CoffeeType;
+import com.example.search.coffee.repository.CoffeeRepository;
 import com.example.search.coffee.repository.es.CoffeeSearchRepository;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -18,9 +19,12 @@ import org.springframework.stereotype.Component;
 public class ElasticsearchDataLoader implements ApplicationRunner {
 
     private CoffeeSearchRepository coffeeSearchRepository;
+    
+    private CoffeeRepository coffeRepository;
 
-    public ElasticsearchDataLoader(CoffeeSearchRepository coffeeSearchRepository) {
+    public ElasticsearchDataLoader(CoffeeSearchRepository coffeeSearchRepository, CoffeeRepository coffeRepository) {
         this.coffeeSearchRepository = coffeeSearchRepository;
+        this.coffeRepository = coffeRepository;
     }
     
     
@@ -28,8 +32,11 @@ public class ElasticsearchDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        log.info("Filling elasticsearch");
-        coffeeSearchRepository.save(new Coffee(1l, "Prva kava", CoffeeType.ROBUSTA, null));
+        log.info("Clearing all documents from index coffee!");
+        coffeeSearchRepository.deleteAll();
+        List<Coffee> coffees = coffeRepository.findAll();
+        log.info("Fillining elasticsearch with PostgresSQL data, found {} rows, ", coffees.size());
+        coffeeSearchRepository.saveAll(coffees);
     }
 
 }

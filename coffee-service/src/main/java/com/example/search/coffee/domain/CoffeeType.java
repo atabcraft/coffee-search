@@ -12,6 +12,10 @@ public enum CoffeeType {
     /**
      * Coffea arabica (/əˈræbɪkə/), also known as the Arabian coffee, "coffee shrub of Arabia", "mountain coffee", or "arabica coffee", is a species of Coffea.
      */
-    ARABICA
+    ARABICA,
+    /**
+     * Mixture of the two types.
+     */
+    MIXTURE
     
 }

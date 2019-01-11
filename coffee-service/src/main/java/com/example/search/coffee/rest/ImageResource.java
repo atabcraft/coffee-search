@@ -39,7 +39,6 @@ public class ImageResource {
         Image processedImage = imageService.createUpdateImage(image);
         return Optional.ofNullable(processedImage).map(result -> new ResponseEntity<>(result, HttpStatus.CREATED))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
     }
 
     /**

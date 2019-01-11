@@ -32,7 +32,6 @@ public class Image implements Serializable {
 
     @NotNull
     @Size(max = 5000000)
-    @Lob
     @Column(name = "image_content", nullable = false)
     protected byte[] image;
 
