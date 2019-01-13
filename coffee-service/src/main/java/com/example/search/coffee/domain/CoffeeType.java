@@ -16,6 +16,10 @@ public enum CoffeeType {
     /**
      * Mixture of the two types.
      */
-    MIXTURE
+    MIXTURE,
+    /**
+     * Wildcard type
+     */
+    ANY
     
 }

@@ -15,6 +15,7 @@ import { BsDropdownModule, AlertModule } from 'ngx-bootstrap';
     AlertModule.forRoot()
   ],
   exports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgxWebstorageModule,

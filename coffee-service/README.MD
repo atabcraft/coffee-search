@@ -26,6 +26,28 @@ More about this method here https://www.elastic.co/guide/en/elasticsearch/refere
 Alternatively docker instance can be created locally for local Elasticsearch instance with command like this:
 `docker run --name zato-es -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.10`
 
+## Setup of kibana ( if needed )
+Login as root to docker image
+`docker exec -it -u 0 kibana bash#kibana is the name of container
+cd  config
+vi kibana.yml#add xpack.security.enabled: false at the end
+...
+# content of kibana.yml
+# Default Kibana configuration from kibana-docker.
+
+server.name: kibana
+server.host: "0"
+elasticsearch.url: http://localhost:9200
+elasticsearch.username: elastic
+elasticsearch.password: changeme
+xpack.monitoring.ui.container.elasticsearch.enabled: false
+xpack.security.enabled: false
+...
+exit
+docker stop kibana
+docker start kibana
+docker run -e XPACK_MONITORING_ENABLED=false -e SERVER_NAME=localhost -d --name kibana -p 5601:5601 docker.elastic.co/kibana/kibana:5.6.10`
+
 # General information
 
 Database name: coffeuniverse

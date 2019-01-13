@@ -8,12 +8,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 /**
  *
  * @author Armin
  */
 @Document(indexName = "coffee")
+@Setting(settingPath = "/elastic/relax_autocomplete_search.json")
+@Mapping(mappingPath = "/elastic/coffee_mapping.json")
 public class CoffeeDocument {
 
     public CoffeeDocument(Long id, String name, CoffeeType coffeeType, String origin, String imageUrl) {

@@ -1,0 +1,22 @@
+{
+    "properties" : {
+      "coffeeType" : {
+            "type" : "text",
+            "index" : "not_analyzed"
+      },
+      "id" : {
+            "type" : "long"
+      },
+      "imageUrl" : {
+            "type" : "text"
+      },
+      "name" : {
+            "type" : "text",
+            "analyzer":  "autocomplete"
+      },
+      "origin" : {
+            "type" : "text",
+            "analyzer":  "autocomplete"
+      }
+    }
+}

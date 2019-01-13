@@ -12,13 +12,26 @@
     <artifactId>coffee</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>coffee</name>
-    <description>Demo project for showing my understanding of few key aspects reagarding Spring and Elasticsearch frameworks </description>
+    <description>Demo project for showing my understanding of few key aspects reagarding Spring, Spring Data and Elasticsearch frameworks </description>
 
     <properties>
         <java.version>1.8</java.version>
-        <elasticsearch.version>5.5.3</elasticsearch.version>
+        <elasticsearch.version>5.6.10</elasticsearch.version>
     </properties>
-
+    <repositories>
+      <!-- add the elasticsearch repo -->
+      <repository>
+         <id>elasticsearch-releases</id>
+         <url>https://artifacts.elastic.co/maven</url>
+         <releases>
+            <enabled>true</enabled>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+   </repositories>
+  
     <dependencies>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -81,6 +94,12 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.0</version>
+        </dependency>
+        <!-- add the x-pack jar as a dependency -->
+        <dependency>
+           <groupId>org.elasticsearch.client</groupId>
+           <artifactId>x-pack-transport</artifactId>
+           <version>5.5.3</version>
         </dependency>
     </dependencies>
 

@@ -3,7 +3,8 @@
         <h2>Search out selection of coffee</h2>
         <div id="custom-search-input">
             <div class="input-group col-md-12">
-                <input [(ngModel)]="searchTerm" type="text" (keyup.enter)="searchCoffee(searchTerm)" class="form-control input-lg" placeholder="ex: arabica" />
+                <input [(ngModel)]="searchTerm" type="text" (keyup.enter)="searchCoffee(searchTerm)" class="form-control input-lg"
+                    placeholder="ex: arabica" />
                 <span class="input-group-btn">
                     <button (click)="searchCoffee()" class="btn btn-info btn-lg" type="button">
                         <i class="glyphicon glyphicon-search"></i>
@@ -14,6 +15,14 @@
     </div>
 </div>
 
-<h1>
-    Unfortunately there is no result...
-</h1>
+<div *ngIf="coffees.length != 0; else notShow">
+    <div *ngFor="let coffee of coffees">
+        {{coffee.name}} from {{coffee.origin}}
+    </div>
+</div>
+
+<ng-template #notShow>
+    <h1>
+        Unfortunately there is no result...
+    </h1>
+</ng-template>
