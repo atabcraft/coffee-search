@@ -36,3 +36,4 @@ Information about fronted and backend subprojects can be found by clicking the d
 - https://stackoverflow.com/questions/44756872/spring-core-default-bean-destroy-method
 - https://github.com/izeye/spring-boot-throwaway-branches/commit/874ccba09189d6ef897bc430c43b6e3705404399
 - https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history
+- https://www.elastic.co/guide/en/elasticsearch/guide/master/mapping-analysis.html
