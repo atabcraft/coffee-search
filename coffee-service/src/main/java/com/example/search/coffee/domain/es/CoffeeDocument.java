@@ -45,7 +45,7 @@ public class CoffeeDocument {
     @Field(type = FieldType.Text)
     private String name;
     
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Auto)
     private CoffeeType coffeeType;
     
     @Field( type = FieldType.Text)

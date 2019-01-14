@@ -1,8 +1,8 @@
 {
     "properties" : {
       "coffeeType" : {
-            "type" : "text",
-            "index" : "not_analyzed"
+            "type": "string",
+            "index": "not_analyzed"
       },
       "id" : {
             "type" : "long"
