@@ -19,5 +19,5 @@ export const createRequestOption = (req?: any): HttpParams => {
 
 export const PAGINATION = {
     PAGE_SIZE: 20,
-    DEFAULT_COFFEE_SORT: ['id,asc']
+    DEFAULT_COFFEE_SORT: ['_score,desc']
 };

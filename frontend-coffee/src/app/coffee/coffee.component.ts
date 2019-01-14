@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CoffeeService } from './coffee.service';
 import { PAGINATION } from '../util/request.util';
+import { CoffeeConstants } from './coffee.constants';
 
 @Component({
     selector: 'app-coffee',
@@ -14,17 +15,23 @@ export class CoffeeComponent implements OnInit {
     searchTerm = '';
 
     coffees = [];
+    coffeeTypes;
+    currentCoffeeType;
 
     ngOnInit() {
-        console.log("Hello from coffee");
+        console.log('Hello from coffee component');
+        this.coffeeTypes = CoffeeConstants.COFFEE_TYPES;
+        this.currentCoffeeType = this.coffeeTypes[3];
         this.searchCoffee();
     }
 
     searchCoffee() {
-        console.log('You searched for : ' + this.searchTerm );
+        console.log('You searched for : ' + this.searchTerm  );
+        console.log(this.currentCoffeeType);
+        // will add real pagination on frontend later
         this.coffeeService.searchCoffeeWithType({
             query: this.searchTerm,
-            coffeeType: 'ANY',
+            coffeeType: this.currentCoffeeType.value,
             page : 0,
             size : PAGINATION.PAGE_SIZE,
             sort : PAGINATION.DEFAULT_COFFEE_SORT
@@ -34,5 +41,9 @@ export class CoffeeComponent implements OnInit {
                 this.coffees = resp;
             }
         );
+    }
+
+    determineTypeDescription(coffee){
+        return this.coffeeTypes.find(element => element.value === coffee.coffeeType).desc;
     }
 }

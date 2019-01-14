@@ -1,22 +1,35 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a href="" class="navbar-brand">Coffee Search</a>
-        </div>
-        <div class="navbar-nav navbar-right uk-navbar-center" dropdown>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Coffee Search</a>
+    <button 
+        class="navbar-toggler" 
+        type="button"  
+        (click)="isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed" 
+        aria-controls="navbarSupportedContent" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <button *ngIf="isAuthenticated" (click)="doSignOut()" class="padded-nav-button btn navbar-btn btn-warning">
-                <span class="glyphicon glyphicon-log-out"></span> Sign out 
-            </button>
-            <button id="button-menu-dividers" dropdownToggle type="button" class="btn navbar-btn btn-primary dropdown-toggle"
-                aria-controls="dropdown-menu-dividers">
-                User management <span class="caret"></span>
-            </button>
-            <ul id="dropdown-menu-dividers" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-menu-dividers">
-                <li role="menuitem"><a class="dropdown-item" routerLink="/signin" routerLinkActive="active">Sign in</a></li>
-                <li role="menuitem"><a class="dropdown-item" routerLink="/signup" routerLinkActive="active">Sign up</a>
-                </li>
-            </ul>
-        </div>
+    <div class="collaps navbar-collapse" [collapse]="isCollapsed" id="navbarSupportedContent">
+        <ul class="navbar-nav navbar-right ml-auto">
+            <li class="nav-item">
+                <button *ngIf="isAuthenticated" (click)="doSignOut()" class="padded-nav-button btn navbar-btn btn-warning">
+                    <span class="glyphicon glyphicon-log-out"></span> Sign out 
+                </button>
+            </li>
+            <div class="btn-group" dropdown>
+                <button id="button-basic" dropdownToggle type="button" class="padded-nav-button btn btn-primary dropdown-toggle"
+                        aria-controls="dropdown-basic">
+                    User management <span class="caret"></span>
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                    role="menu" aria-labelledby="button-basic">
+                    <li role="menuitem"><a class="dropdown-item" routerLink="/signin" routerLinkActive="active">Sign in</a></li>
+                    <li role="menuitem"><a class="dropdown-item" routerLink="/signup" routerLinkActive="active">Sign up</a></li>
+                </ul>
+            </div>
+        </ul>
+        
     </div>
 </nav>
