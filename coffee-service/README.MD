@@ -1,10 +1,8 @@
-# Setup of project
-
 # General information
 
-Database name: coffeuniverse
-Database scheme: public
-username/password : armin/secr3t
+- Database name: coffeuniverse
+- Database scheme: public
+- username/password : armin/secr3t
 
 ## Starting the application:
 
@@ -23,6 +21,8 @@ Go to root of project and type in terminal: -> yarn start ( or npm start )
 
 	Backend : Netbeans - For Maven project, DBeaver for DB client
 
+# Setup of project
+	
 ## Setup and running PostgeSQL with Docker
 More about it here
 https://docs.docker.com/samples/library/postgres/
@@ -55,17 +55,22 @@ Login as root to docker image
 `docker run -e XPACK_MONITORING_ENABLED=false -e SERVER_NAME=localhost -d --name kibana -p 5601:5601 docker.elastic.co/kibana/kibana:5.6.10`
 `docker exec -it -u 0 kibana bash#kibana is the name of container`
 `cd  config`
+
 `vi kibana.yml#add xpack.security.enabled: false at the end`
+
 ...
+
 `#Default Kibana configuration from kibana-docker`
-server.name: kibana
-server.host: "0"
-elasticsearch.url: http://localhost:9200
-elasticsearch.username: elastic
-elasticsearch.password: changeme
-xpack.monitoring.ui.container.elasticsearch.enabled: false
-xpack.security.enabled: false
+`server.name: kibana`
+`server.host: "0"`
+`elasticsearch.url: http://localhost:9200`
+`elasticsearch.username: elastic`
+`elasticsearch.password: changeme`
+`xpack.monitoring.ui.container.elasticsearch.enabled: false`
+`xpack.security.enabled: false`
+
 ...
+
 `exit`
 `docker restart kibana`
 

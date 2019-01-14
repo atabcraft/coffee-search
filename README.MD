@@ -3,7 +3,7 @@
 This is a demo application. Technologies used here demonstrate my working proficiency as a full-stack developer.
 
 Short list of goals of this demo is described on dashboard. Application is focused 
-on viewing a predefined list of coffee items that are fetched from ES. This list can be searched using search bar on efficient way.
+on viewing a predefined list of coffee items that are fetched from Elasticsearch. This list can be searched using search bar on efficient way.
 Idea is to demonstrate full-text search capabilities in PostgreSQL and efficient search approach using search engine noSQL database - Elasticsearch.
 When you look at the graphical interface you should see a decent design and good user experiance ( good UI + UX ).
 
