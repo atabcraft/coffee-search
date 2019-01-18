@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CoffeeService } from './coffee.service';
 import { PAGINATION } from '../util/request.util';
 import { CoffeeConstants } from './coffee.constants';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { CoffeeDetailComponent } from './coffee-detail/coffee-detail.component';
 
 @Component({
     selector: 'app-coffee',
@@ -10,10 +12,11 @@ import { CoffeeConstants } from './coffee.constants';
 })
 
 export class CoffeeComponent implements OnInit {
-    constructor(private coffeeService: CoffeeService) {}
+
+    constructor(private coffeeService: CoffeeService, private modalService: BsModalService) {}
 
     searchTerm = '';
-
+    bsModalRef: BsModalRef;
     coffees = [];
     coffeeTypes;
     currentCoffeeType;
@@ -24,6 +27,16 @@ export class CoffeeComponent implements OnInit {
         this.currentCoffeeType = this.coffeeTypes[3];
         this.searchCoffee();
     }
+
+    openCoffeeDetail(coffee) {
+        const initialState = {
+          'coffee': coffee,
+          'title': 'Coffee detail',
+          'coffeeType': this.determineTypeDescription(coffee)
+        };
+        this.bsModalRef = this.modalService.show(CoffeeDetailComponent, {initialState});
+        this.bsModalRef.content.closeBtnName = 'Close';
+      }
 
     searchCoffee() {
         console.log('You searched for : ' + this.searchTerm  );

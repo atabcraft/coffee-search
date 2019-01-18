@@ -26,7 +26,7 @@
 
     <div class="col-xs-12 col-sm-12 col-md-6 col-xl-4"  *ngFor="let coffee of coffees">
 
-        <div class="card">
+        <div (click)="openCoffeeDetail(coffee)" class="card">
                 <div class="text-center card-header">
                     {{coffee.name}}
                 </div>
