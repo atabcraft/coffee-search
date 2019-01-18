@@ -3,9 +3,10 @@ import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { createRequestOption } from '../util/request.util';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, multicast, share } from 'rxjs/operators';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Router } from '@angular/router';
+import { IUserDetail } from '../shared/model/user-detail.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -50,17 +51,17 @@ export class AuthService {
         );
     }
 
-    getPrincipal(forceReload: boolean) {
-        console.log("calling getPrincipal with flag to forceReload:" + forceReload);
+    getPrincipal(forceReload: boolean): Promise<IUserDetail> {
+        console.log('calling getPrincipal with flag to forceReload:' + forceReload);
         if (forceReload) {
             return this.refreshCurrentPrincipal();
         }
-        return this.principal;
+        return Promise.resolve(this.principal);
     }
 
-    refreshCurrentPrincipal() {
+    refreshCurrentPrincipal(): Promise<IUserDetail> {
         return this.httpClient.get(this.apiUri + '/api/users/current').toPromise().then(
-            (userResp: any) => {
+            (userResp: IUserDetail) => {
                 this.localStorageService.store('userDetails', userResp);
                 this.principal = userResp;
                 this.isAuthenticatedSubject.next({
@@ -69,8 +70,9 @@ export class AuthService {
                 return userResp;
             },
             (error => {
+                this.principal = null;
                 console.log('Error happened while catching current principal, possibly because of 403');
-                console.log(error);
+                return error;
             })
         );
     }
@@ -87,6 +89,6 @@ export class AuthService {
     }
 
     isAuthenticated(): Observable<any> {
-        return this.isAuthenticatedSubject.asObservable();
+        return this.isAuthenticatedSubject.asObservable().pipe(share());
     }
 }

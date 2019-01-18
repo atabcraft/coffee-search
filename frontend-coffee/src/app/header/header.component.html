@@ -12,6 +12,9 @@
     </button>
 
     <div class="collaps navbar-collapse" [collapse]="isCollapsed" id="navbarSupportedContent">
+        <span *ngIf="isAuthenticated" class="navbar-text navbar-left nav-item">
+            Welcome, {{userDetails?.firstName}} {{userDetails?.lastName}}
+        </span>
         <ul class="navbar-nav navbar-right ml-auto">
             <li class="nav-item">
                 <button *ngIf="isAuthenticated" (click)="doSignOut()" class="padded-nav-button btn navbar-btn btn-warning">

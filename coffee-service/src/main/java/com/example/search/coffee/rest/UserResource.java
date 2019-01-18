@@ -6,6 +6,8 @@ import com.example.search.coffee.repository.UserRepository;
 import com.example.search.coffee.security.JwtDTO;
 import com.example.search.coffee.security.JwtTokenProvider;
 import com.example.search.coffee.security.UserDTO;
+import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -116,13 +118,23 @@ public class UserResource {
         log.info("request to get user details:");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Collection<? extends GrantedAuthority> grantedAuthority = userDetails.getAuthorities();
+       
         UserDTO userDto = new UserDTO();
         userDto.setUsername(userDetails.getUsername());
-        userDto.setAuthorities(userDetails.getAuthorities().stream()
-                // implementation of GrantedAuthority has no constructor
-                .map( grantedAuthory -> new Authority(grantedAuthory.getAuthority()))
-                .collect(Collectors.toList()));
+        if( userDetails.getUsername() == null  ){
+            log.info("User not registered");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } 
+        Optional<User> possibleUser = userRepository.findByUsername(userDetails.getUsername());
+        if ( possibleUser.isPresent() ) {
+            User user = possibleUser.get();
+            userDto.setEmail( user.getEmail() );
+            userDto.setAuthorities(new ArrayList(user.getAuthorities()));
+            userDto.setFirstName(user.getFirstName());
+            userDto.setLastName(user.getLastName());
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         log.info("request to get user details: {}", userDto);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
