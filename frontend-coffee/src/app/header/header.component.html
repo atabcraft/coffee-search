@@ -28,7 +28,16 @@
                 </button>
                 <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
                     role="menu" aria-labelledby="button-basic">
-                    <li role="menuitem"><a class="dropdown-item" routerLink="/signin" routerLinkActive="active">Sign in</a></li>
+                    <li role="menuitem">
+                        <a class="dropdown-item" 
+                        [routerLink]="['/', { outlets: { popup: 'signin'} }]"
+                        replaceUrl="true"
+                        queryParamsHandling="merge"
+                        routerLinkActive="active">
+                            Sign in
+                        </a>
+                    </li>
+                   
                     <li role="menuitem"><a class="dropdown-item" routerLink="/signup" routerLinkActive="active">Sign up</a></li>
                 </ul>
             </div>
