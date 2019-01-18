@@ -8,7 +8,7 @@
   </div>
   <div class="form-group">
     <label for="lastName">Last name</label>
-    <input required class="form-control" type="lastName" id="lastName" name="lastName" #lastName="ngModel" ngModel>
+    <input required class="form-control" type="text" id="lastName" name="lastName" #lastName="ngModel" ngModel>
     <span *ngIf="!lastName.valid && lastName.touched" class="help-block text-danger">
       Please enter valid last name
     </span>
