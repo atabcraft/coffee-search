@@ -19,4 +19,8 @@ export class CoffeeService {
             }
         );
     }
+
+    find(id: number) {
+        return this.httpClient.get(this.API_URL + '/api/coffees/' + id );
+    }
 }

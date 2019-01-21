@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { BsDropdownModule, AlertModule, CollapseModule, ModalModule } from 'ngx-bootstrap';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import { BsDropdownModule, AlertModule, CollapseModule, ModalModule } from 'ngx-
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
     CollapseModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    RouterModule
   ],
   exports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { BsDropdownModule, AlertModule, CollapseModule, ModalModule } from 'ngx-
     BsDropdownModule,
     AlertModule,
     CollapseModule,
-    ModalModule
+    ModalModule,
+    RouterModule
   ]
 })
 export class SharedModule { }
