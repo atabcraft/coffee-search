@@ -1,6 +1,6 @@
 <div class="my-auto pt-3">
 
-  <form class="row" novalidate (ngSubmit)="save()" #f="ngForm">
+  <form class="row" novalidate (ngSubmit)="save(f)" #f="ngForm">
     <div class="col-5 col-xs-5 col-sm-5">
       <div class="form-group">
         <img [src]="'data:' + coffee.image.imageContentType + ';base64,' + coffee.image.image" class="img-fluid" alt="coffee image" />
@@ -10,23 +10,37 @@
     <div class="col-7 col-xs-7 col-sm-7">
       <div class="form-group">
         <label for="id">Coffee id in system</label>
-        <input disabled="true" class="form-control" type="number" value="{{coffee.id}}">
+        <input disabled="true" name="id" class="form-control" type="number" [(ngModel)]="coffee.id">
       </div>
       <div class="form-group">
         <label for="name">Coffee name/desc</label>
         <input required class="form-control" type="text" name="name" [(ngModel)]="coffee.name">
         <span class="help-block text-warning" *ngIf="f.controls.name && !f.controls.name.valid && f.controls.name.touched">
-            Please enter valid name/desc!
+          Please enter valid name/desc!
         </span>
-      </div> 
-      <div class="form-group">
-
       </div>
+      <div class="form-group">
+        <label for="coffeeType">Coffee Type</label>
+        <select required name="coffeeType" [(ngModel)]="currentCoffeeType" [ngModelOptions]="{standalone: true}" class="form-control input-group input-lg custom-search-input text-center">
+          <option ngDefaultControl *ngFor="let ct of coffeeTypes" [ngValue]="ct">{{ct.desc}}</option>
+        </select>
+        <span class="help-block text-warning" *ngIf="f.controls.coffeeType && !f.controls.coffeeType.valid && f.controls.coffeeType.touched">
+          Please enter coffee type
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="origin">Shortcut for origin of coffee</label>
+        <input required class="form-control-plaintext" type="text" [(ngModel)]="coffee.origin" name="origin">
+        <span class="help-block text-warning" *ngIf="f.controls.origin && !f.controls.origin.valid">
+          Please enter origin
+        </span>
+      </div>
+
     </div>
     <div class="text-center ml-auto">
-      <button (click)="goBack()" class="btn btn-secondary mr-2" >Go Back</button>
+      <button (click)="goBack()" class="btn btn-secondary mr-2">Go Back</button>
       <button [disabled]="!f.valid" class="btn btn-primary" type="submit">Save</button>
     </div>
-    
+
   </form>
 </div>
