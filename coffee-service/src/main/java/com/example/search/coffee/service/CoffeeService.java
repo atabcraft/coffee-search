@@ -1,9 +1,11 @@
 package com.example.search.coffee.service;
 
+import com.example.search.coffee.domain.Coffee;
 import com.example.search.coffee.domain.CoffeeType;
 import com.example.search.coffee.domain.es.CoffeeDocument;
 import com.example.search.coffee.repository.CoffeeRepository;
 import com.example.search.coffee.repository.es.CoffeeSearchRepository;
+import java.util.Optional;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,13 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class CoffeeService {
-    
+
     private final CoffeeSearchRepository coffeeSerachRepository;
-    
+
     private final CoffeeRepository coffeeRepository;
-    
+
     private final ImageService imageService;
-    
+
     private final Logger log = LoggerFactory.getLogger(CoffeeService.class);
 
     public CoffeeService(CoffeeSearchRepository coffeeSerachRepository, CoffeeRepository coffeeRepository, ImageService imageService) {
@@ -36,32 +39,53 @@ public class CoffeeService {
         this.coffeeRepository = coffeeRepository;
         this.imageService = imageService;
     }
-    
-    public Page<CoffeeDocument> searchAllCoffeeDocuments(Pageable pageable, CoffeeType coffeeType, String query){
-        log.info("Starting search with query \"{}\" of type {} for pageable {}", query, coffeeType, pageable );
+
+    public Page<CoffeeDocument> searchAllCoffeeDocuments(Pageable pageable, CoffeeType coffeeType, String query) {
+        log.info("Starting search with query \"{}\" of type {} for pageable {}", query, coffeeType, pageable);
         QueryBuilder filterCoffeTypeQuery = null;
-        if( coffeeType == CoffeeType.ANY ){
+        if (coffeeType == CoffeeType.ANY) {
             filterCoffeTypeQuery = QueryBuilders.existsQuery("coffeeType");
         } else {
             filterCoffeTypeQuery = QueryBuilders.termQuery("coffeeType", coffeeType.name());
         }
-        
-        QueryBuilder searchQuery; 
-        if( query.isEmpty() ){
+
+        QueryBuilder searchQuery;
+        if (query.isEmpty()) {
             searchQuery = QueryBuilders.matchAllQuery();
         } else {
             searchQuery = multiMatchQuery(
-                query, 
-                "name",
-                "origin"       
+                    query,
+                    "name",
+                    "origin"
             );
         }
-        
+
         QueryBuilder boolQueryBuilder = new BoolQueryBuilder()
-                .filter( filterCoffeTypeQuery )
+                .filter(filterCoffeTypeQuery)
                 .must(searchQuery);
         return coffeeSerachRepository.search(boolQueryBuilder, pageable);
     }
-    
-    
+
+    public Optional<Coffee> findCoffeeById(Long id) {
+        return coffeeRepository.findById(id);
+    }
+
+    public Coffee createUpdate(Coffee coffee) {
+        log.info("Create update of : {}", coffee);
+        coffeeSerachRepository.save(convertToCoffeeDocument(coffee));
+        return coffeeRepository.save(coffee);
+    }
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    private CoffeeDocument convertToCoffeeDocument(Coffee coffee){
+        //this will handle the optimisation of TRANSACTION.NEVER
+        String imageUrl = imageService.createUrlOfImage(coffee.getImage().getId());
+        return new CoffeeDocument(
+                coffee.getId(),
+                coffee.getName(),
+                coffee.getCoffeeType(),
+                coffee.getOrigin(),
+                imageUrl);
+        
+    }
+
 }

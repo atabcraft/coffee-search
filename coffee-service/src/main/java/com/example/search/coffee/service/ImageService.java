@@ -32,7 +32,7 @@ public class ImageService {
         return imageRepository.save(image);
     }
     
-    @Transactional(propagation = Propagation.NEVER)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public String createUrlOfImage( Long id){
         return imageUrlHelper.createImageUrl(id);
     }

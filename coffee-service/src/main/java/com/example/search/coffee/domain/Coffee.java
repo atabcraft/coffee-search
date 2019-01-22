@@ -118,7 +118,7 @@ public class Coffee extends AuditEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Coffee{" + "id=" + id + ", name=" + name + ", coffeType=" + coffeeType + ", origin=" + origin + ", image=" + image.getId() + '}';
+        return "Coffee{" + "id=" + id + ", name=" + name + ", coffeeType=" + coffeeType + ", origin=" + origin + ", image=" + image + '}';
     }
 
     
