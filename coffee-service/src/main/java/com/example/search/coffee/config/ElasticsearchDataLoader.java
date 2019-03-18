@@ -1,7 +1,4 @@
 package com.example.search.coffee.config;
-
-import com.example.search.coffee.domain.Coffee;
-import com.example.search.coffee.domain.CoffeeType;
 import com.example.search.coffee.domain.es.CoffeeDocument;
 import com.example.search.coffee.repository.CoffeeRepository;
 import com.example.search.coffee.repository.es.CoffeeSearchRepository;

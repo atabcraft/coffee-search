@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.search.coffee.rest;
-
 
 import com.example.search.coffee.domain.Coffee;
 import com.example.search.coffee.domain.CoffeeType;
@@ -33,44 +27,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class CoffeeResource {
-    
+
     private Logger log = LoggerFactory.getLogger(CoffeeResource.class);
-    
+
     private CoffeeService coffeeService;
 
     public CoffeeResource(CoffeeService coffeeService) {
         this.coffeeService = coffeeService;
     }
 
-    
     @GetMapping("/coffees/_search/coffee-with-type")
-    public ResponseEntity<List<CoffeeDocument>> searchCoffeeWithType(Pageable pageable, @RequestParam String query, @RequestParam CoffeeType coffeeType ){
-        
+    public ResponseEntity<List<CoffeeDocument>> searchCoffeeWithType(Pageable pageable, @RequestParam String query,
+            @RequestParam CoffeeType coffeeType) {
+
         Page<CoffeeDocument> coffeePage = coffeeService.searchAllCoffeeDocuments(pageable, coffeeType, query);
-        
+
         return new ResponseEntity<>(coffeePage.getContent(), HttpStatus.OK);
-        
+
     }
-    
+
     @GetMapping("/coffees/{id}")
-    public ResponseEntity<Coffee> getCoffee(@PathVariable Long id){
+    public ResponseEntity<Coffee> getCoffee(@PathVariable Long id) {
         log.info("Fetching coffee with id {}", id);
         Optional<Coffee> possibleCoffee = coffeeService.findCoffeeById(id);
-        if( !possibleCoffee.isPresent() ){
+        if (!possibleCoffee.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        
+
         return new ResponseEntity<>(possibleCoffee.get(), HttpStatus.OK);
     }
-    
+
     @PutMapping("/coffees")
-    public ResponseEntity<Coffee> updateCoffee(@RequestBody Coffee coffee){
-        if( coffee.getId() == null ){
+    public ResponseEntity<Coffee> updateCoffee(@RequestBody Coffee coffee) {
+        if (coffee.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Optional<Coffee> possibleCurrentCoffee = coffeeService.findCoffeeById(coffee.getId());
- 
-        if( !possibleCurrentCoffee.isPresent() ){
+
+        if (!possibleCurrentCoffee.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Coffee currentCoffee = possibleCurrentCoffee.get();
@@ -78,10 +72,10 @@ public class CoffeeResource {
         currentCoffee.setName(coffee.getName());
         currentCoffee.setImage(coffee.getImage());
         currentCoffee.setOrigin(coffee.getOrigin());
-        
+
         currentCoffee = coffeeService.createUpdate(currentCoffee);
-        
+
         return new ResponseEntity<>(currentCoffee, HttpStatus.OK);
     }
-    
+
 }

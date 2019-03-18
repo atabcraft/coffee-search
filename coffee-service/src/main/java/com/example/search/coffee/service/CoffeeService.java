@@ -77,7 +77,6 @@ public class CoffeeService {
     }
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     private CoffeeDocument convertToCoffeeDocument(Coffee coffee){
-        //this will handle the optimisation of TRANSACTION.NEVER
         String imageUrl = imageService.createUrlOfImage(coffee.getImage().getId());
         return new CoffeeDocument(
                 coffee.getId(),

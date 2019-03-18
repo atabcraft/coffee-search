@@ -31,7 +31,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = jwtTokenProvider.resolveToken(req);
         //please note here because token can be null when requesting 
         // over HTTP on endpoints /api/users/sign-in or /api/users/sign-up
-        //first token != null is necessery
         log.info("resolved token as: {}", token);
         if ( token != null && jwtTokenProvider.validateToken(token)) {
             Authentication auth = token != null ? jwtTokenProvider.getAuthentication(token) : null;

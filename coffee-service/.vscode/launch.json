@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CoffeeApplication",
+            "request": "launch",
+            "mainClass": "com.example.search.coffee.CoffeeApplication",
+            "projectName": "coffee"
+        }
+    ]
+}

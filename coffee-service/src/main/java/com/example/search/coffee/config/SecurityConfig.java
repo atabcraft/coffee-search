@@ -49,13 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/users/sign-in").permitAll()
                 .antMatchers("/api/users/sign-up").permitAll()
-                //sharing is caring
                 .antMatchers(HttpMethod.GET, "/api/images/**").permitAll()
-                //implicitly that means ROLE_BAD_MANAGER can't get coffe
                 .antMatchers(HttpMethod.GET, "/api/coffees/**").hasAnyRole("ADMIN","ENGINEER")
                 .antMatchers(HttpMethod.POST, "/api/coffees/**").hasAnyRole("ADMIN","ENGINEER")
                 .antMatchers(HttpMethod.PUT, "/api/coffees/**").hasAnyRole("ADMIN","BAD_MANAGER")
-                //BAD_MANAGER can try
                 .antMatchers(HttpMethod.DELETE, "/coffees/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             .and()

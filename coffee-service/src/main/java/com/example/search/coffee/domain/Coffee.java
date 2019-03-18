@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Coffee extends AuditEntity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     public Coffee() {
         
     }

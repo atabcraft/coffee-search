@@ -4,7 +4,6 @@ import com.example.search.coffee.domain.Authority;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  * DTO for user.
