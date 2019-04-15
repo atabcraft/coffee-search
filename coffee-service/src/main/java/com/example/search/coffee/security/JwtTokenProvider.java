@@ -6,16 +6,22 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,10 +41,10 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.remember-me-expire-length}")
     private long rememberMevalidityInMilliseconds;
 
-    private final UserDetailsService userDetailsService;
 
-    public JwtTokenProvider(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    private static final String ROLES_FOR_CLAIMS = "roles";
+
+    public JwtTokenProvider() {
     }
 
     @PostConstruct
@@ -49,7 +55,9 @@ public class JwtTokenProvider {
     public String createToken(String username, List<String> roles, boolean isRememberMe) {
 
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("roles", roles);
+        String rolesForClaims = roles.stream()
+            .collect(Collectors.joining(","));
+        claims.put(ROLES_FOR_CLAIMS, rolesForClaims);
 
         Date now = new Date();
 
@@ -66,8 +74,19 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        Claims claims = Jwts.parser()
+            .setSigningKey(secretKey)
+            .parseClaimsJws(token)
+            .getBody();
+
+        Collection<? extends GrantedAuthority> authorities =
+            Arrays.stream(claims.get(ROLES_FOR_CLAIMS).toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        User user = new User(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(user, "", authorities);
     }
 
     public String getUsername(String token) {
