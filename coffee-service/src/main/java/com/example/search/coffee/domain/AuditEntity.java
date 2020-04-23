@@ -24,12 +24,12 @@ public abstract class AuditEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @CreatedBy
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by", nullable = true)
     @JsonIgnore
     private String createdBy;
 
     @CreatedDate
-    @Column(name = "created_date", nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = true, updatable = false)
     @JsonIgnore
     private Instant createdDate = Instant.now();
 

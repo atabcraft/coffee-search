@@ -53,7 +53,6 @@ public class CoffeeResource {
         if (!possibleCoffee.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(possibleCoffee.get(), HttpStatus.OK);
     }
 
