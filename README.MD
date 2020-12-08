@@ -1,3 +1,8 @@
+# In action
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=jLfHrybsU-8
+" target="_blank"><img src="http://img.youtube.com/vi/jLfHrybsU-8/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
 # Demo Spring + Angular 7 application
 
 This is a demo application. Technologies used here demonstrate my working proficiency as a full-stack developer.
